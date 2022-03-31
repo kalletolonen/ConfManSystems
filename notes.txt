@@ -1,0 +1,114 @@
+Configuration management systems
+
+package - file - service -user -exec
+pattern
+
+sudo apt-get update
+
+sudo apt-get install salt-minion
+-orjaversio
+
+salt-call --version
+
+sudo salt-call --local test.ping
+
+sudo salt-call --local state.single pkg.installed apache2
+-ajetaan yksittäinen komento, tarkistetaan, että on asennettu pkg (joku paketti)
+-asennetaan, jos ei ole
+-tsek miten viimeisin versio varmennetaan?
+
+sudo salt-call --local state.single service.running apache2
+-Tarkistetaan, että onko service päällä
+-Laitetaan, jos ei ole
+
+sudo salt-call --local sys.state_doc |less
+sudo salt-call --local sys.state_doc hakusana |less
+-Dokumentaatio
+
+sudo salt-call --local -l debug state.single pkg.installed apache2
+-l debug tarjoaa enemmän tietoa
+
+sudo salt-call --local state.single service.running apache2 enable=True
+-enable=True -> käynnistetään automaattisesti koneen myötä
+
+sudo salt-call --local state.single file.managed /tmp/helseciin
+-Luodaan tiedosto, jos ei ole
+
+sudo salt-call --local state.single file.managed /tmp/helseciin contents="sisältö"
+-Sisältö tiedostoon
+
+sudo salt-call --local state.single file.absent /tmp/helseciin
+-Varmistaa, että tiedosto ei ole olemassa
+
+sudo salt-call --local state.single pkg.removed apache2
+-Varmistaa, että paketti ei ole olemassa
+
+sudo salt-call --local state.single service.dead apache2
+-Varmistaa, ettei palvelu ole päällä
+
+sudo salt-call --local state.single user.present tunnus
+-Tsekkaa, onko käyttäjä olemassa, jos ei ole, luodaan
+
+sudo grep tunnus /etc/shadow
+-jos on huutomerkki, niin ei salasanaa
+
+sudo salt-call --local state.single user.absent tunnus
+-poistaa tunnukset
+
+touch heitero
+-tekee tyhjiä tiedostoja
+
+sudo salt-call --local state.single cmd.run 'touch /tmp/heitero'
+-käytä absoluuttista polkua
+-ei idempotentti
+
+sudo salt-call --local state.single cmd.run 'touch /tmp/heitero' creates=/tmp/heitero
+-idempotentti versio
+
+sudo salt-call --local state.single file.managed /tmp/heitero creates=/tmp/heitero
+-idempotentti versio tiedostonluontiin
+
+kolmannen osapuolen paketin asentaminen:
+cat /etc/apt/sources.list
+-Lähteiden paikat
+-lisätään osoite
+
+ls /etc/apt/trusted.gpg.d/
+-Luotetut salakirjoitusavaimet, saavat rootit + adminit
+-lisätään avain
+
+-> sitten normaali asennus
+
+MASTER-SLAVE
+masterin osoite (dns-nimi tai ip)
+masterille asennetaan salt-master
+mennään orjalle
+asennetaan salt-minion
+
+master:
+hostname -I
+sudo apt-get update
+sudo apt-get install salt-master
+
+masterin ip/dns talteen
+
+orja:
+sudo apt-get install salt-minion
+sudoedit /etc/salt/minion
+master: osoite
+VÄLILYÖNNEILLÄ ON VÄLIÄ
+sudo systemctl restart salt-minion
+
+master:
+sudo systemctl start salt-master.service
+-Täytyy käynnistää ehkä käsin
+sudo salt-key
+
+sudo salt-key -A master
+-hyväksytään asetus
+
+sudo salt '*' (kaikki orjat) test.ping
+sudo salt '*' (kaikki orjat) state.single file.managed /tmp/testi
+sudo salt '*' (kaikki orjat) cmd.run 'hostname'
+
+karvinen.com salt quickstart
