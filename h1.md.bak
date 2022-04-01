@@ -317,6 +317,8 @@ So, idempotency was achieved as the prints suggest.
 First I had to refer to the manual for all the commands:  
 	sudo salt-call --local sys.state_doc nameofcommandhere
   
+**Pkg**
+  
 I tried out purging for pkg:  
 	sudo salt 'debian' state.single pkg.purged apache2  
   
@@ -341,6 +343,8 @@ Total run time:  45.574 ms
 ````
   
 The difference between purging and removing (according to my knowledge) is that purging removes conf-files too.  
+  
+**File**  
   
 Next I wanted to try out appending to a file, so I created a file:  
 	echo "The first sentence." |tee tmp/test  
@@ -458,16 +462,89 @@ I decided to try one last time and create the file with salt first and then edit
 ![Pic 13. Created a file](pics/h1/13.png)  
 *I Created a file with salt*  
   
-
-	
-
-
+Stopped working @ 18.38.  
   
+Started to work @ 21.00, determined to finish this portion.  
+  
+This time appending worked like a charm:  
+	sudo salt 'debian' file.append '/tmp/test.txt' \ "This is an appendix"  
 
-	
-	
+![Pic 14. Created a file](pics/h1/14.png)  
+*Appending to a file made with salt worked ok*  
+  
+**Service**  
+  
+First I made sure that my slave had Apache2 installed:  
+	sudo salt 'debian' state.single pkg.installed apache2  
+  
+Then I wanted to see, if I could make sure that the minion had userdir enabled in Apache:  
+	sudo salt '*' apache.a2enmod userdir  
+  
+````
+debian:
+    ----------
+    Mod:
+        userdir
+    Name:
+        Apache2 Enable Mod
+    Status:
+        Mod userdir enabled
+````
 
+The service was enabled succesfully.  
+  
+**user**  
+The source I used:
+[https://salt-zh.readthedocs.io/en/latest/ref/states/all/salt.states.user.html](https://salt-zh.readthedocs.io/en/latest/ref/states/all/salt.states.user.html)  
+  
+One general thing about Linux manuals and documentation online seems to be that actual commands are hard to come by and you can quite easily get lost in guessing what the correct syntax might be. A simple example of cli-use would make everything 1000% more inviting to engage in.  
+  
+I wanted to spesify a user with a real name and an e-mail (with a guess of the correct syntax:  
+	sudo salt '*' salt.states.user.present(name="Mikko Makkonen")  
+	
+	bash: syntax error near unexpected token `('  
+  
+That produced a syntax error, so back to guesswork:  
+	sudo salt '*' salt.states.user.present(Mikko Makkonen)  
+	  
+Same error, so let's try quotes:  
+	sudo salt '*' salt.states.user.present("Mikko Makkonen")
+  
+No change in the error message, so I took an another guess:  
+	sudo salt '*' salt.states.user.present(name "Mikko Makkonen")  
+	sudo salt '*' salt.states.user.present(name: "Mikko Makkonen")  
+	
+I had the same error still, so it was time to [Google](https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.useradd.html):  
+	sudo salt '*' user.add Mikko Makkonen  
+	
+Now the error changed, and I had made some increamental progress. I think that there a 2 types of commands for Salt - those meant for CLI and others that are oriented towards a conf-file.  
+  
+![Pic 15. Getting there](pics/h1/15.png)  
+*Salt actually did something this time!*  
+  
+I tried adding some quotes around the users name, but that didn't help. A thought popped to my mind - maybe I was trying to add a username "Mikko Makkonen", not a user named Mikko Makkonen. Sure enough, just dropping the space made all the difference:  
+	sudo salt '#*' user.add Mikko  
+  
+![Pic 16. Mikko joins the club](pics/h1/16.png)  
+*Salt did exactly what I commanded it to do*  
+  
+I deleted the user:  
+	sudo salt '*' user.delete Mikko  
+  
+And this time around I tried all adding 3 parameters at once:  
+	sudo salt '*' user.add mikkoma fullname='Mikko Makkonen' other='mikko@makkonen.fi'  
+	
+![Pic 17. Mikko joins the club, for real](pics/h1/17.png)  
+*A great success!*  
+  
+Now I just wanted to see Mikko's info:  
+	sudo salt '*' user.info mikkoma  
+  
+![Pic 18. Info](pics/h1/18.png)  
+*User info*  
   
 ##f) Herra ja orja. Asenna Salt master-slave arkkitehtuurilla. Anna orjalle komento. (Tämä tehtävä lienee hieman haastavampi) Update 2022-03-31: Voit asentaa tässä molemmat, herran ja orjan, samalle koneelle.  
+  
+This has already been done above.
   
 ##i) Vapaaehtoinen: kokeile herra-orja -arkkitehtuuria verkon yli, niin että herra ja orja ovat eri koneilla. Voit laittaa ne myös eri virtuaalikoneille. (Updated: päivitin tätä alakohtaa 2022-03-31)
