@@ -121,6 +121,17 @@ I took a break @ 14.51.
   
 Started again @ 15.42.  
   
+##a) Mikä meininki? Selvitä, mikä käyttöjärjestelmä (Linuxin versio) sinulla on käytössä, ja mikä Saltin versio.  
+  
+So, this is how I figured out my Linux version and my salt version:  
+	
+	salt --version  
+	cat /etc/os-release  
+  
+
+![Pic 1.](pics/h1/1.png)  
+*I had version 3002.6 of Salt and Debian 11*  
+  
 
 
 
