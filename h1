@@ -1,0 +1,43 @@
+# **h1 Hei maailma & monet tilat**
+
+I started @ 13.40.
+  
+The source for the excersice [Tero Karvinen](https://terokarvinen.com/2021/configuration-management-systems-2022-spring/#h1-hei-maailma--monet-tilat)
+  
+**Hardware & Software**  
+*Win 11 + VirtualBox 6.0 + Debian 11*  
+  
+*Hardware:*  
+*CPU: AMD Ryzen 9 5900HS*  
+*Mem: 16 Gt LPDDR4X*  
+*Storage: 512 Gt M.2 2230 NVMe PCIe 3.0 SSD*  
+  
+##  z) Lue ja tiivistä ##
+
+**[Salt Run Command Locally](https://terokarvinen.com/2021/salt-run-command-locally/)**  
+  
+Salt can by used locally, as well as to maintain a large number of slave computers. Local use is usefull for trying out things before implementing them to production systems.
+
+The article teaches you how to install and use the most important functionality of Salt locally:
+	0. pkg - is for managing that packages are installed 
+	1. file - is for managing that a file exists
+	2. service - is for managing processes (daemons)
+	3. user - is for managing users
+	4. cmd - is for executing commands (THIS IS NOT IDEMPOTENT BY DEFAULT!)
+  
+**[Salt Quickstart – Salt Stack Master and Slave on Ubuntu Linux](https://terokarvinen.com/2018/salt-quickstart-salt-stack-master-and-slave-on-ubuntu-linux/)**  
+  
+This article is about the building blocks for controlling a vast horde of computers.  
+  
+The main takeaways are:  
+-What to install for a slave (salt-minion)
+-What to install for a master  (salt-master)
+-What actions are needed for the slave (edit the master's dns/ip in the minion's conf)
+-What actions are needed for the master (Accept the key from the slave)
+  
+**[Vagrant Revisited – Install & Boot New Virtual Machine in 31 seconds](https://terokarvinen.com/2017/04/11/vagrant-revisited-install-boot-new-virtual-machine-in-31-seconds/)**  
+  
+A quick and painless article about initializing a virtual machine quick - something I just had to try out!  
+  
+
+
