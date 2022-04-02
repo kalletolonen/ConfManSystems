@@ -30,14 +30,16 @@ The article teaches you how to install and use the most important functionality 
 This article is about the building blocks for controlling a vast horde of computers.  
   
 The main takeaways are:  
--What to install for a slave (salt-minion)  
--What to install for a master  (salt-master)  
+-What you should install for a slave (salt-minion)  
+-What you should install for a master  (salt-master)  
 -What actions are needed for the slave (edit the master's dns/ip in the minion's conf)  
 -What actions are needed for the master (Accept the key from the slave)  
   
 **[Vagrant Revisited – Install & Boot New Virtual Machine in 31 seconds](https://terokarvinen.com/2017/04/11/vagrant-revisited-install-boot-new-virtual-machine-in-31-seconds/)**  
   
-A quick and painless article about initializing a virtual machine quick - something I just had to try out!  
+A quick and painless article about initializing a virtual machine quick - something I just had to try out! The article has detailed instructions and commands to install and implement Vagrant & Virtualbox.  
+  
+My experiment didn't go as planned:  
   
 ````
 E: Package 'virtualbox' has no installation candidate
@@ -545,8 +547,8 @@ Now I just wanted to see Mikko's info:
   
 I quit for the night @ 21.55.  
   
-##f) Herra ja orja. Asenna Salt master-slave arkkitehtuurilla. Anna orjalle komento. (Tämä tehtävä lienee hieman haastavampi) Update 2022-03-31: Voit asentaa tässä molemmat, herran ja orjan, samalle koneelle.  
+##f) Herra ja orja. Asenna Salt master-slave arkkitehtuurilla. Anna orjalle komento. (Tämä tehtävä lienee hieman haastavampi) Update 2022-03-31: Voit asentaa tässä molemmat, herran ja orjan, samalle koneelle.  / Install a master-slave arrangement
   
 This has already been done above.
   
-##i) Vapaaehtoinen: kokeile herra-orja -arkkitehtuuria verkon yli, niin että herra ja orja ovat eri koneilla. Voit laittaa ne myös eri virtuaalikoneille. (Updated: päivitin tätä alakohtaa 2022-03-31)
+##i) Vapaaehtoinen: kokeile herra-orja -arkkitehtuuria verkon yli, niin että herra ja orja ovat eri koneilla. Voit laittaa ne myös eri virtuaalikoneille. (Updated: päivitin tätä alakohtaa 2022-03-31) / Try out a master-slave arrangement over a network
