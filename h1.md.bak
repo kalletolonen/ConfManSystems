@@ -141,22 +141,26 @@ First, I uninstalled salt-minion and salt-master to document the process from th
 	sudo apt-get remove salt-minion  
 	  
 Next, I installed install the same packages again:  
+	
 	sudo apt-get update  
 	sudo apt-get install -y salt-master salt-minion  
   
 After that it was time to check the ip of my master:  
+	
 	hostname -I
 	
 ![Pic 2. Hostname](pics/h1/2.png)  
 *The hostname*  
   
 Now I had the hostname, so next I edited it to a minions conf-file:  
+	
 	sudo micro /etc/salt/minion  
   
 ![Pic 3. Conf-file](pics/h1/3.png)  
 *The master's address was added*  
   
 It was time to restart the minion, start the master.service and check for the key-situation:  
+	
 	sudo systemctl restart salt-minion  
 	sudo systemctl start salt-master.service  
 	sudo salt-key  
@@ -165,12 +169,14 @@ It was time to restart the minion, start the master.service and check for the ke
 *The key was already accepted, as I had forgotted to remove it.*  
   
 I did some [Google-work](https://docs.saltproject.io/en/latest/ref/cli/salt-key.html), and figured out the command to delete the key:  
+	
 	sudo salt-key -d debian  
 	
 ![Pic 5. Deleted key](pics/h1/5.png)  
 *The key was deleted*  
   
 Then I just restarted the minion, so that it would reach out for it's master:  
+	
 	sudo systemctl restart salt-minion
 	sudo salt-key
 	
@@ -178,15 +184,18 @@ Then I just restarted the minion, so that it would reach out for it's master:
 *Back to the starting point*  
   
 Accepting the key was done via:  
+	
 	sudo salt-key -A master  
 	
 I checked the status of my master-minion-arrangement:  
+	
 	sudo salt 'debian' test.ping
   
 ![Pic 7. Connecting people](pics/h1/7.png)  
 *Connecting people, or minions*  
   
 I checked the human users from my minion:  
+	
 	sudo salt 'debian' state.single cmd.run 'cut -d: -f1,3 /etc/passwd | egrep ':[0-9]{4}$' | cut -d: -f1'  
 
 ````
@@ -201,11 +210,11 @@ debian: #Name of the minion
      Changes:   
               ----------
               pid:
-                  49492 #Process id for kernel (?)
+                  49492 #Process id for kernel (0)
               retcode:
-                  0 #No idea about this one
-              stderr: #Possible error messages for the command (?)
-              stdout: #Output of the command(?)
+                  0 #Return code 0, and a hunch(1) that it means success
+              stderr: #Possible error messages for the command (?)(2)
+              stdout: #Output of the command. (3)
                   nobody
                   kallet
 
@@ -217,13 +226,18 @@ Failed:    0 #Failed commands
 Total states run:     1 #Number of states run
 Total run time:   6.526 ms #Total run time (Obviously not measured from the time I gave the command)
 ````
-	
-I tried to better my understanding from [the documentation](https://docs.saltproject.io/salt/user-guide/en/latest/topics/states.html), but I wasn't able to figure out the things I didn't understand on the printout completely.  
+  
+[0. pid](https://www.cyberciti.biz/faq/howto-display-process-pid-under-linux-unix/)  
+[1. Source for my return code 0 -hunch](https://askubuntu.com/questions/1040800/why-is-exit-code-0-a-success-and-1-a-failure)  
+[2. stderr](https://www.computerhope.com/jargon/s/stderr.htm)  
+[3. stdout](https://www.computerhope.com/jargon/s/stdout.htm)  
   
 Next I figured out my minions Linux version:  
+	
 	sudo salt 'debian' state.single cmd.run 'cat /etc/os-release'  
-
+  
 The print was similar, and thus told me that the printout is related to the type of command I ran. So, it was time to try out an idempotent pkg-command:  
+	
 	sudo salt 'debian' state.single pkg.installed apache2  
   
 This command would have installed apache2-package, if it hadn't been already installed, thus checking for a state, ie. idempotency.  
@@ -234,7 +248,7 @@ debian: #Name of the minion
 ----------
           ID: apache2 #id for the pkg
     Function: pkg.installed #function used for state
-      Result: True #Result of the action
+      Result: True #Result of the action (state = true, ie. target has the required state)
      Comment: All specified packages are already installed #As this is a "normal" command, comments are spesific
      Started: 16:42:37.531530 #Process start time
     Duration: 52.213 ms #Run time
@@ -249,17 +263,19 @@ Total states run:     1
 Total run time:  52.213 ms
 ````
   
-##c) Kultajyvät. Laadi komento, joka näyttää koneesta vain tärkeimmät tiedot (grains.item) / Get some grains
+## c) Kultajyvät. Laadi komento, joka näyttää koneesta vain tärkeimmät tiedot (grains.item) / Get some grains
   
 I executed the command:  
+	
 	sudo salt '\#*' grains.items  
 	
 ![Pic 8. Grains](pics/h1/8.png)  
 *The tail end of the printout*  
   
-##d) d) Idempotenssi. Tee idempotentti esimerkkikomento saltilla. Aja komentoa useita kertoja. Osoita selitetyin esimerkein, että komentosi on idempotentti. / Prove idempotency
+## d) Idempotenssi. Tee idempotentti esimerkkikomento saltilla. Aja komentoa useita kertoja. Osoita selitetyin esimerkein, että komentosi on idempotentti. / Prove idempotency
   
 I kind of did this already on part b, but here's another example:  
+	
 	sudo salt 'debian' state.single pkg.removed apache2
 	
 The command removes apache2, if it is installed.  
@@ -315,14 +331,16 @@ Total run time:  44.771 ms
   
 So, idempotency was achieved as the prints suggest.  
   
-##e) Omat mausteet. Kokeile jotain uutta (ei aiemmin kurssilla näytettyä) ominaisuutta kustakin tärkeimmästä tilafunktiosta pkg, file, service, user.  / Try something new with state functions
+## e) Omat mausteet. Kokeile jotain uutta (ei aiemmin kurssilla näytettyä) ominaisuutta kustakin tärkeimmästä tilafunktiosta pkg, file, service, user.  / Try something new with state functions
   
 First I had to refer to the manual for all the commands:  
-	sudo salt-call --local sys.state_doc nameofcommandhere
+	
+	sudo salt-call --local sys.state_doc nameofcommandgoeshere
   
 **Pkg**
   
 I tried out purging for pkg:  
+	
 	sudo salt 'debian' state.single pkg.purged apache2  
   
 ````
@@ -347,12 +365,14 @@ Total run time:  45.574 ms
   
 The difference between purging and removing (according to my knowledge) is that purging removes conf-files too.  
   
-**File**  
+### **File**  
   
 Next I wanted to try out appending to a file, so I created a file:  
+	
 	echo "The first sentence." |tee tmp/test  
 	  
 Appending didn't quite work out as expected:  
+	
 	sudo salt '\#*' file.append /tmp/test \ "The second sentence."  
 
 ````
@@ -373,20 +393,22 @@ ERROR: Minions returned with non-zero exit code
 ````
   
 This was my error message. The funny thing is that the example from the [documents page](https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.file.html) worked like a charm:  
+	
 	sudo salt '*' file.append /tmp/testi2         "With all thine offerings thou shalt offer salt."         "Salt is what makes things taste bad when it isn't in them."  
 	
 ![Pic 9. file.append working](pics/h1/9.png)  
 *The example worked as it was supposed to.*  
 	
-So I did the logical step and tried to spot the diffences in my work and the example. The first one was that my file already existed, so I tried that one by removing the test-files:  
-	
+So I did the logical step and tried to spot the diffences in my work and the example. The first one was that my file already existed, so I tried that one by removing the test files.  
+  
 ![Pic 10. file.append working](pics/h1/10.png)  
 *I think that user rights might have been my error*  
   
 I tried the example again and it was capable of making new files:  
+	
+	sudo salt '*' file.append /etc/motd         "With all thine offerings thou shalt offer salt."         "Salt is what makes things taste bad when it isn't in them."
+  
 ````
-sudo salt '*' file.append /etc/motd         "With all thine offerings thou shalt offer salt."         "Salt is what makes things taste bad when it isn't in them."
-
 debian:
     Wrote 2 lines to "/etc/motd"
 
@@ -425,12 +447,14 @@ Total run time:   0.589 ms
 ````  
   
 I tried to iterate trought the imaginary file:  
+	
 	sudo salt 'debian' state.single cmd.run 'cat /tmp/test'  
   
 ![Pic 11. PEBCAK?](pics/h1/11.png)  
 *No luck*  
   
 Next I tried to make a file and check for access:  
+	
 	echo "This is a test" |tee /tmp/test.txt  
 	sudo salt 'debian' file.access /tmp/test.txt f  
 	
@@ -438,6 +462,7 @@ Next I tried to make a file and check for access:
 *Salt had access*  
   
 So, a time for a try at appending with a file that has certified content and access:  
+  
 ````
 kallet@debian:~$ sudo salt 'debian' file.append '/tmp/test.txt' \ "This is an appendix" 
 debian:
@@ -458,7 +483,10 @@ ERROR: Minions returned with non-zero exit code
   
 Computer said no, still. [A source](https://itsmycode.com/python-permissionerror-errno-13-permission-denied/) states that it's a problem with user rights. I can't comprahend why it's ok to save or modify something in the etc-folder, but not to home - while working as superuser.  
   
+	Update: I think my problem might have been that salt checked for access, but not for writing when I ran my command.  
+  
 I decided to try one last time and create the file with salt first and then edit it with salt:  
+	
 	rm /tmp/test.txt
 	sudo salt '\#*' state.single file.managed /tmp/test.txt contents="This might work"  
 	
@@ -470,17 +498,20 @@ Stopped working @ 18.38.
 Started to work @ 21.00, determined to finish this portion.  
   
 This time appending worked like a charm:  
+	
 	sudo salt 'debian' file.append '/tmp/test.txt' \ "This is an appendix"  
-
+  
 ![Pic 14. Created a file](pics/h1/14.png)  
 *Appending to a file made with salt worked ok*  
   
-**Service**  
+### **Service**  
   
 First I made sure that my slave had Apache2 installed:  
+	
 	sudo salt 'debian' state.single pkg.installed apache2  
   
 Then I wanted to see, if I could make sure that the minion had userdir enabled in Apache:  
+	
 	sudo salt '*' apache.a2enmod userdir  
   
 ````
@@ -496,21 +527,23 @@ debian:
 
 The service was enabled succesfully.  
   
-**user**  
+### **user**  
 The source I used:
 [https://salt-zh.readthedocs.io/en/latest/ref/states/all/salt.states.user.html](https://salt-zh.readthedocs.io/en/latest/ref/states/all/salt.states.user.html)  
   
-One general thing about Linux manuals and documentation online seems to be that actual commands are hard to come by and you can quite easily get lost in guessing what the correct syntax might be. A simple example of cli-use would make everything 1000% more inviting to engage in.  
+One general thing about Linux manuals and documentation online seems to be that actual commands are hard to come by and you can quite easily get lost in guessing what the correct syntax might be. A simple example of cli-use would make everything 1000% more inviting to engage in. I think that really few people start at an advanced level and would just like to try out something really basic first.   
   
 I wanted to spesify a user with a real name and an e-mail (with a guess of the correct syntax:  
-	sudo salt '*' salt.states.user.present(name="Mikko Makkonen")  
 	
+	sudo salt '*' salt.states.user.present(name="Mikko Makkonen")  
 	bash: syntax error near unexpected token `('  
   
 That produced a syntax error, so back to guesswork:  
+	
 	sudo salt '*' salt.states.user.present(Mikko Makkonen)  
 	  
 Same error, so let's try quotes:  
+	
 	sudo salt '*' salt.states.user.present("Mikko Makkonen")
   
 No change in the error message, so I took an another guess:  
@@ -518,6 +551,7 @@ No change in the error message, so I took an another guess:
 	sudo salt '*' salt.states.user.present(name: "Mikko Makkonen")  
 	
 I had the same error still, so it was time to [Google](https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.useradd.html):  
+	
 	sudo salt '*' user.add Mikko Makkonen  
 	
 Now the error changed, and I had made some increamental progress. I think that there a 2 types of commands for Salt - those meant for CLI and others that are oriented towards a conf-file.  
@@ -526,21 +560,25 @@ Now the error changed, and I had made some increamental progress. I think that t
 *Salt actually did something this time!*  
   
 I tried adding some quotes around the users name, but that didn't help. A thought popped to my mind - maybe I was trying to add a username "Mikko Makkonen", not a user named Mikko Makkonen. Sure enough, just dropping the space made all the difference:  
-	sudo salt '#*' user.add Mikko  
+	
+	sudo salt '#\*' user.add Mikko  
   
 ![Pic 16. Mikko joins the club](pics/h1/16.png)  
 *Salt did exactly what I commanded it to do*  
   
 I deleted the user:  
+	
 	sudo salt '*' user.delete Mikko  
   
 And this time around I tried all adding 3 parameters at once:  
+	
 	sudo salt '*' user.add mikkoma fullname='Mikko Makkonen' other='mikko@makkonen.fi'  
 	
 ![Pic 17. Mikko joins the club, for real](pics/h1/17.png)  
 *A great success!*  
   
 Now I just wanted to see Mikko's info:  
+	
 	sudo salt '*' user.info mikkoma  
   
 ![Pic 18. Info](pics/h1/18.png)  
