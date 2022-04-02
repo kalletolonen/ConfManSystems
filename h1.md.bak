@@ -1,8 +1,8 @@
-# **h1 Hei maailma & monet tilat**
+# **h1 Hei maailma & monet tilat  / Hello World and states**
 
 I started @ 13.40.
   
-The source for the excersice [Tero Karvinen](https://terokarvinen.com/2021/configuration-management-systems-2022-spring/#h1-hei-maailma--monet-tilat)
+The source for the exercise  [Tero Karvinen](https://terokarvinen.com/2021/configuration-management-systems-2022-spring/#h1-hei-maailma--monet-tilat)
   
 **Hardware & Software**  
 *Win 11 + VirtualBox 6.0 + Debian 11 Bullseye*  
@@ -12,7 +12,7 @@ The source for the excersice [Tero Karvinen](https://terokarvinen.com/2021/confi
 *Mem: 16 Gt LPDDR4X*  
 *Storage: 512 Gt M.2 2230 NVMe PCIe 3.0 SSD*  
   
-##  z) Lue ja tiivistä ##
+##  z) Lue ja tiivistä / Reading exercise ##
 
 **[Salt Run Command Locally](https://terokarvinen.com/2021/salt-run-command-locally/)**  
   
@@ -120,7 +120,7 @@ I took a break @ 14.51.
   
 Started again @ 15.42.  
   
-##a) Mikä meininki? Selvitä, mikä käyttöjärjestelmä (Linuxin versio) sinulla on käytössä, ja mikä Saltin versio.  
+##a) Mikä meininki? Selvitä, mikä käyttöjärjestelmä (Linuxin versio) sinulla on käytössä, ja mikä Saltin versio.  / Figure out Linux & Salt versions
   
 So, this is how I figured out my Linux version and my salt version:  
 	
@@ -131,7 +131,7 @@ So, this is how I figured out my Linux version and my salt version:
 ![Pic 1. Versions](pics/h1/1.png)  
 *I had version 3002.6 of Salt and Debian 11*  
   
-##b) Onko tietoa? Kerää jostain koneesta tiedot Saltilla, esimerkiksi käyttöjärjestelmä, vapaan muistin määrä, virtualisointi jne. Poimi tuloksesta olennaiset osat ja selitä ne.  
+##b) Onko tietoa? Kerää jostain koneesta tiedot Saltilla, esimerkiksi käyttöjärjestelmä, vapaan muistin määrä, virtualisointi jne. Poimi tuloksesta olennaiset osat ja selitä ne. / Gather info with Salt 
   
 First, I uninstalled salt-minion and salt-master to document the process from the beginning:  
 	sudo apt-get remove salt-master  
@@ -215,7 +215,7 @@ Total states run:     1 #Number of states run
 Total run time:   6.526 ms #Total run time (Obviously not measured from the time I gave the command)
 ````
 	
-I tried to better my understanding from [the documentation](https://docs.saltproject.io/salt/user-guide/en/latest/topics/states.html), but I wasn't able to figure out the things I didn't understand on the printout.  
+I tried to better my understanding from [the documentation](https://docs.saltproject.io/salt/user-guide/en/latest/topics/states.html), but I wasn't able to figure out the things I didn't understand on the printout completely.  
   
 Next I figured out my minions Linux version:  
 	sudo salt 'debian' state.single cmd.run 'cat /etc/os-release'  
@@ -246,7 +246,7 @@ Total states run:     1
 Total run time:  52.213 ms
 ````
   
-##c) Kultajyvät. Laadi komento, joka näyttää koneesta vain tärkeimmät tiedot (grains.item)
+##c) Kultajyvät. Laadi komento, joka näyttää koneesta vain tärkeimmät tiedot (grains.item) / Get some grains
   
 I executed the command:  
 	sudo salt '\#*' grains.items  
@@ -254,7 +254,7 @@ I executed the command:
 ![Pic 8. Grains](pics/h1/8.png)  
 *The tail end of the printout*  
   
-##d) d) Idempotenssi. Tee idempotentti esimerkkikomento saltilla. Aja komentoa useita kertoja. Osoita selitetyin esimerkein, että komentosi on idempotentti.  
+##d) d) Idempotenssi. Tee idempotentti esimerkkikomento saltilla. Aja komentoa useita kertoja. Osoita selitetyin esimerkein, että komentosi on idempotentti. / Prove idempotency
   
 I kind of did this already on part b, but here's another example:  
 	sudo salt 'debian' state.single pkg.removed apache2
@@ -312,7 +312,7 @@ Total run time:  44.771 ms
   
 So, idempotency was achieved as the prints suggest.  
   
-##e) Omat mausteet. Kokeile jotain uutta (ei aiemmin kurssilla näytettyä) ominaisuutta kustakin tärkeimmästä tilafunktiosta pkg, file, service, user.  
+##e) Omat mausteet. Kokeile jotain uutta (ei aiemmin kurssilla näytettyä) ominaisuutta kustakin tärkeimmästä tilafunktiosta pkg, file, service, user.  / Try something new with state functions
   
 First I had to refer to the manual for all the commands:  
 	sudo salt-call --local sys.state_doc nameofcommandhere
@@ -542,6 +542,8 @@ Now I just wanted to see Mikko's info:
   
 ![Pic 18. Info](pics/h1/18.png)  
 *User info*  
+  
+I quit for the night @ 21.55.  
   
 ##f) Herra ja orja. Asenna Salt master-slave arkkitehtuurilla. Anna orjalle komento. (Tämä tehtävä lienee hieman haastavampi) Update 2022-03-31: Voit asentaa tässä molemmat, herran ja orjan, samalle koneelle.  
   
