@@ -61,12 +61,12 @@ Call to virConnectOpen failed: Failed to connect socket to '/var/run/libvirt/lib
 ````
   
 The error said something about ssh, so I thought it might have been an issue, so I installed ssh:  
-	*sudo apt-get install -y ssh*  
+````sudo apt-get install -y ssh````  
   
 That didn't solve my problem, so I was just left with the problem of not having a virtualbox-pkg installed. I followed a [tutorial](https://www.how2shout.com/linux/installing-virtualbox-app-on-debian-11-bullseye/) (parts 1-5) and managed to install virtualbox with that.  
   
 I tried to initiate vagrant:  
-	*vagrant up*  
+````vagrant up````
   
 I got rewarded with an error.  
   
