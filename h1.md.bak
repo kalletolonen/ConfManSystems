@@ -547,6 +547,7 @@ Same error, so let's try quotes:
 	sudo salt '*' salt.states.user.present("Mikko Makkonen")
   
 No change in the error message, so I took an another guess:  
+	
 	sudo salt '*' salt.states.user.present(name "Mikko Makkonen")  
 	sudo salt '*' salt.states.user.present(name: "Mikko Makkonen")  
 	
@@ -590,4 +591,100 @@ I quit for the night @ 21.55.
   
 This has already been done above.
   
-##i) Vapaaehtoinen: kokeile herra-orja -arkkitehtuuria verkon yli, niin että herra ja orja ovat eri koneilla. Voit laittaa ne myös eri virtuaalikoneille. (Updated: päivitin tätä alakohtaa 2022-03-31) / Try out a master-slave arrangement over a network
+##i) Vapaaehtoinen: kokeile herra-orja -arkkitehtuuria verkon yli, niin että herra ja orja ovat eri koneilla. Voit laittaa ne myös eri virtuaalikoneille. (Updated: päivitin tätä alakohtaa 2022-03-31) / Try out a master-slave arrangement over a network  
+  
+I started work @ 16.58.  
+  
+I managed to find an [instructive tutorial](https://wiki.debian.org/Vagrant) and decided to give it a try:  
+	
+	sudo apt install vagrant-libvirt libvirt-daemon-system  
+	  
+Next I made sure my user was a part of libvirt-group:  
+	
+	sudo usermod --append --groups libvirt kallet 
+	  
+After this I loggedout and in again, and made sure that the group existed:  	
+	groups | grep -o libvirt  
+	  
+![Pic 19. libvirt-group did exist](pics/h1/19.png)  
+*There was a group in existance*  
+  
+Then it was time to try the Vagrant box out:  
+	
+	vagrant init debian/buster64
+	vagrant up --provider=libvirt
+	vagrant ssh
+	
+![Pic 20. libvirt-group did exist](pics/h1/20.png)  
+*My result was a Virtualbox error*  
+  
+![Pic 21. couldn't exactly stop Virtualbox](pics/h1/21.png)  
+*It seemed to me that I had removed Virtualbox and somehow left Vagrant running?*  
+  
+Well, then I decided to purge Virtualbox and Vagrant:  
+	
+	sudo apt-get purge -y virtualbox vagrant
+	
+As per usual, computers never work right the first time around. I had an exotic error to tackle:  
+	
+	Virtual packages like 'virtualbox' can't be removed
+	
+![Pic 22. Virtual pkg's can't be removerd](pics/h1/22.png)  
+*Couldn't remove virtualbox*  
+  
+I did [some searching]()https://unix.stackexchange.com/questions/596023/help-uninstalling-virtualbox and found a potential solution:  
+	
+	sudo apt purge virtualbox*
+	
+The \#* at the end tells Linux to remove all virtualbox pkg's.  
+  
+So, after that I tried installing vagrant again as in the beginning of this exercise.  
+  
+![Pic 23. Same problem again](pics/h1/23.png)  
+*The problem persisted, so I removed the Vagrantfile*  
+  
+Stopped work @ 17.25.  
+  
+Started again the next day @ 16.30.  
+  
+I made a directory and initiated vagrant:  
+	
+	mkdir vagrant1
+	cd vagrant1
+	vagrant init debian/buster64
+	vagrant up --provider=libvirt
+
+The result of this was a different error.
+
+````
+Error while connecting to Libvirt: Error making a connection to libvirt URI qemu:///system?no_verify=1&keyfile=/home/kallet/.ssh/id_rsa:
+Call to virConnectOpen failed: Failed to connect socket to '/var/run/libvirt/libvirt-sock': No such file or directory
+````
+  
+I decided that this wasn't  a problem that I could actually solve quickly, so I opted for a Windows Virtualbox Debian to Windowds Virtualbox Debian virtual network instead.  
+  
+The process to connect the machines was as follows:  
+  
+1. I Powered off the 2 machines  
+2. I Chose 1 of the machines, and clicked on settings  
+  
+![Pic 24. Click here](pics/h1/24.png)  
+*Clicked the settings open*  
+  
+3. Network -> advanced  -> attached for -> "Internal Network"  
+  
+![Pic 25. Desired settings](pics/h1/25.png)  
+*These were the settings*  
+  
+4. New I checked  that I had the same settings on the other virtual machine  
+5. Booted up the machines and confirmed that they can talk with each other  
+This is when I realized that [the source](https://www.youtube.com/watch?v=59RhHsvNK44&t=9s&ab_channel=RobertMcMillen) was for Windows, and thus utterly useless.  
+  
+I tried to look for tutorials, but my Virtualbox didn't have host-only network available that the tutorials were referring to.  
+  
+I also tried [this tutorial](https://linuxhint.com/how-to-use-virtualbox-host-only-networking/), but ended with a network that didn't work.  
+
+![Pic 26. No network for me](pics/h1/26.png)  
+*I did not succeed in creating a network*  
+  
+This is when I decided to ask about the topic on our next lecture, since this wasn't actually productive work. I'll update the article when I have a solution for this.  
