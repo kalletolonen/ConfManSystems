@@ -112,3 +112,73 @@ sudo salt '*' (kaikki orjat) state.single file.managed /tmp/testi
 sudo salt '*' (kaikki orjat) cmd.run 'hostname'
 
 karvinen.com salt quickstart
+
+micro lsp-tuki
+
+Infraa koodina (=saltilla ajetut komennot)
+
+PKG
+asennukset
+
+File:
+asetustiedostot yms.
+
+Service:
+servicen käynnistäminen
+
+Ajaminen:
+sudo salt '*' state.apply apache
+
+pkg-file-service-test
+-lataa vikana nettisivu, sitten demonit käyntiin uusiksi
+(1)-kuva
+
+salt apache -hakusana Karvisen sivut
+
+Ensin tehdään käsin, sitten vasta automatisoidaan.
+
+sudo apt-get update
+sudo apt-get install -y apache2 #pkg
+sudo systemctl apache2.service 
+curl -s localhost |grep title
+curl localhost/~tunnus
+ls /etc/apache2/mods-enabled
+sudo a2enmod userdir #file (cmd)
+sudo systemctl restart apache2.service #service
+
+INFRA KOODINA
+paikka Saltissa
+
+sudo mkdir /srv/salt/ #masterin paikka
+-tehdään kansioita
+sudo mkdir /srv/salt/helloworld
+sudo micro helloworld/init.sls #entrypoint
+(2)-kuva
+
+/tmp/heimaailma.txt:
+  (2 välilyöntiä alkuun, YAML:n erikoisuus)
+  file.managed
+
+sudo salt-call --local state.apply helloworld
+
+PKG-FILE-SERVICE
+Karvinen.com -> salt apache
+
+sudo mkdir /srv/salt/apache
+sudo micro /srv/salt/apache/init.sls
+
+apache2: #nimi, käytetään parametrinä, jos ei erikseen speksattuna
+  (2 välilyöntiä (ohjelmalohkon sisennys))
+  pkg.installed
+
+a2enmod userdir:
+  cmd.run
+    (2+2 välilyöntiä)
+    - creates: "/etc/apache2/mods-enabled/userdir.conf"
+
+apache2.service:
+  service.running:
+    - watch: 
+      - cmd: "a2enmod userdir" #seuraa muutoksia, aja kun muutoksia
+
+
