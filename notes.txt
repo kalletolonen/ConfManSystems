@@ -153,7 +153,6 @@ sudo mkdir /srv/salt/ #masterin paikka
 -tehdään kansioita
 sudo mkdir /srv/salt/helloworld
 sudo micro helloworld/init.sls #entrypoint
-(2)-kuva
 
 /tmp/heimaailma.txt:
   (2 välilyöntiä alkuun, YAML:n erikoisuus)
@@ -182,3 +181,20 @@ apache2.service:
       - cmd: "a2enmod userdir" #seuraa muutoksia, aja kun muutoksia
 
 
+export EDITOR="micro" <- sudoeditin editori
+micro .bashrc <- tiedoston loppuun
+
+sudo apt-get install -y bash-completion
+cd hyppää suoraan käyttäjän kotihakemistoon
+sudoa EI käytetä kotihakemistoissa.
+xclip -> kokeile
+mallisivut etc/skel(?)
+
+Fiksaa:
+Harjoitus 1 -> b ja c, yksityiskohtia
+-> omat mausteet -> service oikeaksi serviceksi
+
+Vianselvitys
+ping, voiko orja pingata masteria
+sudo apt-get install -y netcat
+kuva 2
