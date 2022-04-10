@@ -198,3 +198,4 @@ Vianselvitys
 ping, voiko orja pingata masteria
 sudo apt-get install -y netcat
 kuva 2
+
