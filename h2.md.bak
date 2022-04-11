@@ -708,3 +708,5 @@ huhti 11 15:16:00 confmansys systemd[1]: Started OpenBSD Secure Shell server.
 ````
   
 The daemon was running @ port 7373.  
+  
+I completed my work after a quick recap @ 15.47 and did a Git commit.  
