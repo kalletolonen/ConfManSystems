@@ -12,11 +12,11 @@ The source for the exercise [h2](https://terokarvinen.com/2021/configuration-man
 *Mem: 16 Gt LPDDR4X*  
 *Storage: 512 Gt M.2 2230 NVMe PCIe 3.0 SSD*  
   
-##  z) Lue ja tiivistä / Reading exercise ##
+##  z) Lue ja tiivistä / Reading exercise  
 
 **[SaltStack Configuration Management: Get Started Tutorial - Introduction](https://docs.saltproject.io/en/getstarted/config/index.html)**  
   
-Just a bullet point list of things you'll be using:  
+This was just a bullet point list of things you'll be using:  
 -Salt state function calls  
 -includes  
 -requisites  
@@ -27,7 +27,8 @@ It also explains that Salt let's you define a desired state (idempotency) regard
 **[SaltStack Configuration Management: Get Started Tutorial - Functions](https://docs.saltproject.io/en/getstarted/config/functions.html)**  
   
 -Functions are the secret sauce that makes Salt do it's magic  
--They can be used to: "install and configure applications, create users, distribute files, and about anything else you might need to do when setting up your systems."  
+-They can be used to:  
+*"install and configure applications, create users, distribute files, and about anything else you might need to do when setting up your systems."*  
 -Salt states are written in [YAML](https://yaml.org/) (YAML Ain't Markeup Language)  
 -The basic idea is that it's like JSON, but without so many special characters (those are replaced with spaces)  
   
@@ -44,7 +45,7 @@ Karvinen also stated in our previous session that the ID will be used as a name,
   
 The example picture is of a function that first makes sure a package is installed and then checks that the installed service is running.  
   
--You should note that Salt execution functions (unlike state-functions) don't check if the service is already running before doing their job. For example service.running is a state function and it checks before issuing a restart and service.restart is an execution function and just restarts the service.  
+-You should note that Salt execution functions (unlike state-functions) don't check if the service is already running before doing their job. For example **service.running** is a state function and it checks before issuing a restart and **service.restart** is an execution function and just restarts the service.  
    
 You can do a dry run in production systems with a test-parameter. Just by adding "test=True" to the end of your command.  
   
@@ -56,7 +57,7 @@ state.apply looks for a init.sls-file that contains your functions to apply in t
 **[SaltStack Configuration Management: Get Started Tutorial - Files](https://docs.saltproject.io/en/getstarted/config/files.html)**  
   
 -Salt has a built-in server for files  
--files places in src/salt are available for salt minions (the path is salt://(path in srv/salt)  
+-files places in /srv/salt are available for salt minions (the path is salt://(path in /srv/salt/)  
 You could, for example, manage Apache conf-files as such (direct quote):  
   
 ````
@@ -69,7 +70,7 @@ deploy the http.conf file:
 The absolute path in Salt master would be: /srv/salt/apache/http.conf  
   
 Managing conf-files in this manner has a great advantage:  
-**Every minion that this is applied to, has the same settings**
+**Every minion that this is applied to, will have the same settings**
   
 I quit for the day @ 17.32 after about 1 hours worth of active learning.  
   
@@ -77,7 +78,7 @@ Started work @ 9.53.
   
 **[Install Apache Web Server on Ubuntu](https://terokarvinen.com/2008/05/02/install-apache-web-server-on-ubuntu-4/)**  
   
--Simple instructions how to install and test an apache installation.  
+-Simple instructions on how to install and test an apache installation.  
 -Also provides instructions on how to enable user homepages
 
 The key takeaway is in my opinion that you should always test the things that you build.  
@@ -86,9 +87,9 @@ The key takeaway is in my opinion that you should always test the things that yo
   
 This article expands on the previous one. It gives instructions on how to enable user homepages with a salt function.  
   
-The main point is on the second paragraph: you should, and can,  only automate things you are able to do manually. So test out the function of your function first and THEN automate it.  
+The main point is in the second paragraph: you should, and can,  only automate things you are able to do manually. So test out the function of your function first and THEN automate it.  
   
-The article has a nice command for figuring out the time when a file was edited:  
+The article also had a nice command for figuring out the time when a file was edited:  
 	
 	find -printf "%T+ %p\n"|sort 
 	
@@ -98,6 +99,7 @@ In salt there are a different ways of getting to the same end goal - you can use
   
 **[Pkg-File-Service – Control Daemons with Salt – Change SSH Server Port](https://terokarvinen.com//2018/pkg-file-service-control-daemons-with-salt-change-ssh-server-port/)**  
   
+The article tells you how to:    
 -Create a salt SSH-state  
 -Create a ssh-config-file in your salt-directory  
 -Apply changes to your minions  
@@ -110,9 +112,9 @@ This is config management: first, install a package -> replace a configuration a
 -It's for managing and automating systems remotely  
 -Salt doesn't care about the minion's operating system, it works on Win & Linux both  
   
-Salt uses master-minion model. This means that a master has salt-master installed and minions have salt-minion - the minion knows the master's address and the master has accepted the minions key. Master tells the minions what to do and the minion fullfill their master's commands.  
+Salt uses a master-minion model. This means that a master has salt-master installed and minions have salt-minion - the minion knows the master's address and the master has accepted the minion's key(s). Master tells the minions what to do and the minions fullfill their master's commands.  
   
-You can target 1 or a group(s) or all of your minions.  
+You can target 1 minion, group(s) of minions or all of your minions.  
   
 -Salt is faster than higher level com protocols like http  
 -You can use salt to run cli commands or use it as a configuration management system with yaml-files  
@@ -175,7 +177,7 @@ This is a sudoedited page.
   
 So, that was the manual process of doing this and now it was time to automate it!  
   
-First I removed the config that we made in class:  
+First I removed the state that we made in class:  
 	
 	sudo rm -r /srv/salt/apache/
 
@@ -329,7 +331,7 @@ The salt print verified that everything was as it was supposed to be.
   
 ## b) Tri Kaaaos. Aiheuta erilaisia vikatilanteita ja osoita, kuinka Apache-tilasi korjaa ne. Voit esimerksi sulkea demonin (sudo systemctl stop foobar), poistaa asetukset tai poistaa apachen paketit. Osoita yksinkertaisin testein, saat palvelun toimimattomaksi, ja salt-tilasi saa sen jälleen toimimaan. / Cause some errors and show how your apache-state fixes those  
   
-So this seemed as if everything had worked fine, but now I had to test my states. I did that in reverse order,  so first I stopped the service and checked if my state would start it again:  
+Now I had to test my states. I did that in reverse order,  so first I stopped the service and checked if my state would start it again:  
 	
 	sudo systemctl stop apache2.service
 	sudo systemctl status apache2.service
@@ -338,7 +340,7 @@ So this seemed as if everything had worked fine, but now I had to test my states
 	
 	curl: (7) Failed to connect to localhost port 80: Connection refused
 	
-I had stopped the service and the next I tried to start it with my state:  
+I had stopped the service and next I tried to start it with my state:  
 	
 	sudo salt-call --local state.apply apache
 	
@@ -364,7 +366,7 @@ Failed:    0
 ````
   
 ![Pic 5. First state-check](pics/h2/5.png)  
-*Changes were made, and I checked the localhost manually just to be sure.*  
+*Changes were made, and I checked localhost manually just to be sure.*  
   
 The state worked as it should have, so next I removed my default html-file:  
 	
@@ -375,7 +377,7 @@ The state worked as it should have, so next I removed my default html-file:
 ![Pic 6. Curl localhost](pics/h2/6.png)  
 *There was nothing to see*  
   
-Next I applied my state and it made 2 changes (1st it copied the index.html and then restarted the service):  
+Next I applied my state and it made 2 changes (it copied the index.html and then restarted the service):  
 ````
 local:
 ----------
@@ -444,7 +446,7 @@ Succeeded: 3 (changed=3)
 Failed:    0
 ````
   
-Salt made 3 changes, just as it should. I checked the result with curl and Firefox.  
+Salt made 3 changes, just as it should've. I checked the result with curl and Firefox.  
   
 ![Pic 9. 3 changed with this salt state](pics/h2/9.png)  
 *Curl returned the expected outcome*  
@@ -518,7 +520,7 @@ huhti 11 14:51:31 confmansys systemd[1]: Started OpenBSD Secure Shell server.
 lines 1-17/17 (END)
 ````
   
-Manual version of my future state-function worked and SSH was running in port 7373.  
+Manual version of my future state-function worked and SSH was running @ port 7373.  
   
 **Time to automate**  
   
@@ -528,6 +530,7 @@ First, I made a directory for my state and a state for installing ssh:
 	sudoedit /srv/salt/ssh/init.sls  
 	
 ````
+#init.sls
 ssh:
   pkg.installed
 ````  
@@ -556,15 +559,16 @@ Total states run:     1
 Total run time: 118.633 ms
 ````
   
-Pkg was installed, so next I needed to copy the config-file to the correct location for salt's file server:  
+Pkg was installed, so next I needed to copy the config-file to the correct location for Salt's file server:  
 	
 	sudo cp /etc/ssh/sshd_config /srv/salt/ssh/
 	
-After this I had the config file ready and just needed to make changes to copy it in my salt state in init.sls:  
+After this I had the config file ready and just needed to make changes for copying it in my Salt state:  
 	
 	sudoedit /srv/salt/ssh/init.sls
 	
 ````
+#init.sls
 ssh:
   pkg.installed
 
@@ -579,6 +583,7 @@ ssh:
 Finally it was time to restart the service, if the config-file changed, so I made some more changes to init.sls:  
   
 ````
+#init.sls
 ssh:
   pkg.installed
 
@@ -635,17 +640,18 @@ Total run time: 212.310 ms
   
 **Testing**  
   
-I did a complete test by:  
+The test was done in 4 steps:    
 1. The config file was deleted  
 2. SSH was purged  
 3. Service was stopped  
 4. The state was applied  
+	
+	sudo rm /etc/ssh/sshd_config  
+	sudo apt-get purge -y ssh  
+	sudo systemctl stop ssh  
+	sudo systemctl status ssh  
+	
   
-	sudo rm /etc/ssh/sshd_config
-	sudo apt-get purge -y ssh
-	sudo systemctl stop ssh
-	sudo systemctl status ssh
-
 ````
 kallet@confmansys:~$ sudo systemctl status ssh
 ● ssh.service - OpenBSD Secure Shell server
@@ -668,8 +674,37 @@ huhti 11 15:14:22 confmansys systemd[1]: ssh.service: Succeeded.
 huhti 11 15:14:22 confmansys systemd[1]: Stopped OpenBSD Secure Shell server.
 ````
   
-Then I just executed my ssh state and it printed out a promising report.  
+Then I just executed my SSH-state and it printed out a promising report:  
+	
+	sudo salt-call --local state.apply ssh
+	
   
 ![Pic 14. SSH was in the house, again](pics/h2/14.png)  
 *SSH made a comeback*  
   
+Just to be sure, I checked the service's status:  
+	
+	sudo systemctl status ssh
+	
+````
+kallet@confmansys:~$ sudo systemctl status ssh
+● ssh.service - OpenBSD Secure Shell server
+     Loaded: loaded (/lib/systemd/system/ssh.service; enabled; vendor preset: e>
+     Active: active (running) since Mon 2022-04-11 15:16:00 EEST; 2min 51s ago
+       Docs: man:sshd(8)
+             man:sshd_config(5)
+    Process: 14741 ExecStartPre=/usr/sbin/sshd -t (code=exited, status=0/SUCCES>
+   Main PID: 14742 (sshd)
+      Tasks: 1 (limit: 9448)
+     Memory: 1.1M
+        CPU: 29ms
+     CGroup: /system.slice/ssh.service
+             └─14742 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+
+huhti 11 15:16:00 confmansys systemd[1]: Starting OpenBSD Secure Shell server...
+huhti 11 15:16:00 confmansys sshd[14742]: Server listening on 0.0.0.0 port 7373.
+huhti 11 15:16:00 confmansys sshd[14742]: Server listening on :: port 7373.
+huhti 11 15:16:00 confmansys systemd[1]: Started OpenBSD Secure Shell server.
+````
+  
+The daemon was running @ port 7373.  
