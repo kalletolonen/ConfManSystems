@@ -199,3 +199,80 @@ ping, voiko orja pingata masteria
 sudo apt-get install -y netcat
 kuva 2
 
+GIT
+sudo apt-get update
+sudo apt-get install -y git
+git init -> uusireponimi (kerralla oikein nimi)
+git add . -> lisää hakemisto ja alihakemistot
+git commit -m "Kommentti" (TOIMIVA VERSIO)
+IMPERATIIVISSÄ ja PREESENSISSÄ
+
+git config --global user.email email@mail.fi
+git config --global user.name "User Name"
+git log
+git checkout <- voi palata vanhoihin versioihin
+
+git diff --cached (muutokset)
+git status
+
+SSH - julkisen avaimen kirjautuminen
+Julkinen avain on lukko -> yksityinen on avain
+julkisella voi salata
+public key encryption wiki
+
+ssh-keygen <- tekee avaimen
+ssh-copy-id a@b.com
+ssh-yhteys tän jälkeen normisti ilman salasanoja
+ssh-keygen -C "kommentti"
+
+ssh on hyvä saltin varakanava.
+
+Github
+-> new repo
+-> repon nimi
+-> Add a README
+-> Clone -> SSH
+-> lisää SSH-avain, jos ei ole
+-> oma public-ssh-avain koneelta
+-> cat .ssh/id_rsa.pub
+->ssh-osoite repoon
+->koneella 
+git clone pastettu url
+
+git pull
+git push
+<- päivä alkaa näillä
+
+Muutoksia ->
+
+git add .
+git commit
+git pull
+git push
+
+pandoc/hugo markdownin kääntämiseen
+shutter screencappeihin
+mux? copy-paste 
+
+
+git log --patch-with-stat
+
+monialaprojekti infra
+
+cleopatra? gpg-avain
+
+```
+väritetty koodi
+```
+
+git mergetool:
+sudo apt-get install -y meld
+git mergetool --tool=meld
+
+
+
+
+
+
+
+
