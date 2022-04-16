@@ -43,10 +43,11 @@ First I added this article to my course repository. My repository already existe
 	git pull
 	git push
 	git add .
-	git commit -m "Made initial commit for this article"
+	git commit -m "Made initial commit for article"
 	git pull
 	git push
 	
+
 ## c) Kaikki kirjataan. Näytä omalla git-varastollasi esimerkit komennoista ‘git log’, ‘git diff’ ja ‘git blame’. Selitä tulokset. / Explain the output from Git-commands
 
 ## c) Huppis! Tee tyhmä muutos gittiin, älä tee commit:tia. Tuhoa huonot muutokset ‘git reset --hard’. Huomaa, että tässä toiminnossa ei ole peruutusnappia.
