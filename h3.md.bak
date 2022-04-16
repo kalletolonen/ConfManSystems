@@ -47,13 +47,1073 @@ First I added this article to my course repository. My repository already existe
 	git pull
 	git push
 	
+````  
+C:\Confmansys>git commit -m "Made initial commit for article"
+[main 663f965] Made initial commit for article
+ 4 files changed, 121 insertions(+), 1 deletion(-)
+ create mode 100644 h3.md
+ create mode 100644 h3.md.bak
+ create mode 100644 pics/h3/1.png
+````
+  
+As it is obvious from the CLI, Git works with Windows too.  
+  
+![Pic 2. Rendered md-output](pics/h3/2.png)  
+*Going meta - rendered MarkDown in Github*  
 
 ## c) Kaikki kirjataan. Näytä omalla git-varastollasi esimerkit komennoista ‘git log’, ‘git diff’ ja ‘git blame’. Selitä tulokset. / Explain the output from Git-commands
 
-## c) Huppis! Tee tyhmä muutos gittiin, älä tee commit:tia. Tuhoa huonot muutokset ‘git reset --hard’. Huomaa, että tässä toiminnossa ei ole peruutusnappia.
+I continued this article in my Virtualbox-Linux and Micro. Here's a tip to make MarkDown readable in Micro:  
+
+	Push ctrl + e #for Micro settings
+	set softwrap true
+
+This is a handy way to make text wrap so that it fits smaller screen sizes.  
+
+Source: https://terokarvinen.com/2022/micro-editor-lsp-support-python-and-go-jump-to-definition-show-function-signature/  
+
+Next, I made a pull and a push.
+
+	git pull
+	git push
+
+Then I executed the log-command.
+
+	git log
+
+````
+commit 71a6d27a0076c7124b55525c89cbf13b34e3d0ee (HEAD -> main, origin/main, origin/HEAD)
+Author: Kalle Tolonen <kalle.tolonen@gmail.com>
+Date:   Sat Apr 16 12:50:40 2022 +0300
+
+    Added a picture
+
+commit 663f965efa48445061f4b7c324834ea2fee14b9c #The commit hash, it's unique
+Author: Kalle Tolonen <kalle.tolonen@gmail.com> #commit author
+Date:   Sat Apr 16 12:46:50 2022 +0300			#commit time and date
+
+    Made initial commit for article				#commit message
+
+commit f91d7a9c7e949d057f3a2c328cc914edc4a2bf52
+Author: Kalle Tolonen <kalle.tolonen@gmail.com>
+Date:   Thu Apr 14 13:28:29 2022 +0300
+
+    Add notes
+
+commit 301f721e52c2941cbadf5a9fcf8c1e3880695903	#Earlier commit to the same repository
+Author: Kalle Tolonen <kalle.tolonen@gmail.com>
+Date:   Mon Apr 11 15:48:38 2022 +0300
+
+    h2, before finishing touches
+
+commit 42c3bcaf6d10d90ea25f5c0ed3a88a43a9bf6e04
+Author: Kalle Tolonen <kalle.tolonen@gmail.com>
+Date:   Mon Apr 11 15:47:51 2022 +0300
+
+    h2, corrections
+
+````
+  
+After that I studied the differences:  
+
+	git diff
+
+
+````
+diff --git a/h3.md b/h3.md #File in question
+index 7c48f31..346ea3d 100644 #hash (commit) in question
+--- a/h3.md
++++ b/h3.md
+@@ -47,7 +47,7 @@ First I added this article to my course repository. My repository already existe
+        git pull
+        git push
+        
+-```` #Stuff that was removed
++```` #Stuff that was added (compered to the previous version)
+
+ C:\Confmansys>git commit -m "Made initial commit for article"
+ [main 663f965] Made initial commit for article
+  4 files changed, 121 insertions(+), 1 deletion(-)
+@@ -55,19 +55,71 @@ C:\Confmansys>git commit -m "Made initial commit for article"
+  create mode 100644 h3.md.bak
+  create mode 100644 pics/h3/1.png
+ 
+-
++  
+```` 
+
+Finally, it was time to find the blame.  
+
+	git blame
+
+Git blame will show you who did what:  
+````
+kallet@confmansys:~/ConfManSystems$ git blame h1.md
+af3c3e48 (Kalle Tolonen 2022-04-02 09:27:42 +0300   1) # **h1 Hei maailma & monet tilat  / Hello World and states**
+e66fc9b2 (Kalle Tolonen 2022-04-01 15:49:24 +0300   2) 
+e66fc9b2 (Kalle Tolonen 2022-04-01 15:49:24 +0300   3) I started @ 13.40.
+e66fc9b2 (Kalle Tolonen 2022-04-01 15:49:24 +0300   4)   
+af3c3e48 (Kalle Tolonen 2022-04-02 09:27:42 +0300   5) The source for the exercise  [Tero Karvinen](https://terokarvinen.com/2021/configuration-management-systems-2022-spring/#h1-hei-maailma--monet-tilat)
+````
+The first element is the commit hash, then it tells you who did it and when. After that there's a line number and the content.  
+  
+## c) Huppis! Tee tyhmä muutos gittiin, älä tee commit:tia. Tuhoa huonot muutokset ‘git reset --hard’. Huomaa, että tässä toiminnossa ei ole peruutusnappia.  / Make a mistake and cancel it
+
+A made a change in my previous assignment.
+
+	micro h2.md
+	#removed the heading
+	git diff
+
+````
+diff --git a/h2.md b/h2.md
+index 1eb8201..7a06396 100644
+--- a/h2.md
++++ b/h2.md
+@@ -1,4 +1,4 @@
+-# **h2 package-file-service**
++
+
+````
+
+After that I gave the command to reset.
+
+	git reset --hard
+
+````
+HEAD is now at 29af8ee Write more content for article. #This told me that the file was returned to a previous state
+````
+
+Just to be sure, I ran diff again.
+
+	git diff
+
+No print for the command, so no diffence.  
 
 ## d) Formula. Tee uusi salt-tila (formula, moduli, infraa koodina). (Eli uusi tiedosto esim. /srv/salt/terontila/init.sls). Voit tehdä ihan yksinkertaisen parin funktion (pkg, file...) tilan, tai edistyneemmin asentaa ja konfiguroida minkä vain uuden ohjelman: demonin, työpöytäohjelman tai komentokehotteesta toimivan ohjelman. Käytä tarvittaessa ‘find -printf “%T+ %p\n”|sort’ löytääksesi uudet asetustiedostot. / Make a new state with Salt
 
+I started by making a list of software and settings I would like to have for studying and work:  
+	Micro
+	bash-completion
+	Git
+	Gimp
+	Blender
+	Python3
+	Ufw
+	Apache2
+	Ssh
+	Pwgen
+
+My preferred settings:
+
+	Micro - softwrap = True, tabstospaces = False
+	Sudoedit = Micro
+	
+### Micro
+
+It seems to me that Micro only saves values for settings that are true, ie. it propably presumes that everything else is false. The settings are stored in:
+
+	/home/user/.config/micro/settings.json
+
+So, my first state was going to be installing Micro and making the settings I liked best. I used my previous article as [a source](https://github.com/kalletolonen/ConfManSystems/blob/main/h2.md).  
+
+	sudo mkdir /srv/salt/desktop
+	sudoedit /srv/salt/desktop/init.sls
+
+````
+micro:
+	pkg.installed
+````
+	
+	sudo salt-call --local state.apply desktop
+
+````
+[CRITICAL] Rendering SLS 'base:desktop' failed: found character that cannot start any token
+local:
+    Data failed to compile:
+----------
+    Rendering SLS 'base:desktop' failed: found character that cannot start any token
+````
+
+As a result I had a bizarre error message. Just putting the error message to Google told me that YAML was to blame and I realized that I might have just used a tab instead of spaces when writing the state. I fixed my state to have only spaces as intendations.
+
+	sudoedit /srv/salt/desktop/init.sls
+	sudo salt-call --local state.apply desktop
+
+````
+micro:
+  pkg.installed
+````
+
+````
+kallet@confmansys:~$ sudo salt-call --local state.apply desktop
+local:
+----------
+          ID: micro
+    Function: pkg.installed
+      Result: True
+     Comment: All specified packages are already installed
+     Started: 15:03:45.039126
+    Duration: 50.092 ms
+     Changes:   
+
+Summary for local
+------------
+Succeeded: 1
+Failed:    0
+------------
+Total states run:     1
+Total run time:  50.092 ms
+````
+
+That was more like it. Next it was time to add the settings I wanted in Micro.  
+
+	sudo cp .config/micro/settings.json /srv/salt/desktop/
+	#I was in my home directory for this, thus no absolute path
+	sudoedit /srv/salt/desktop/init.sls
+
+````
+micro:
+  pkg.installed
+
+/home/kallet/.config/micro/settings.json:
+  file.managed:
+    - source: salt://apache/settings.json
+````
+	
+	sudo salt-call --local state.apply desktop
+	
+````
+[ERROR   ] Source file salt://apache/settings.json not found in saltenv 'base'
+local:
+----------
+          ID: micro
+    Function: pkg.installed
+      Result: True
+     Comment: All specified packages are already installed
+     Started: 15:13:16.093812
+    Duration: 50.837 ms
+     Changes:   
+----------
+          ID: /home/kallet/.config/micro/settings.json
+    Function: file.managed
+      Result: False
+     Comment: Source file salt://apache/settings.json not found in saltenv 'base'
+     Started: 15:13:16.158954
+    Duration: 18.406 ms
+     Changes:   
+
+Summary for local
+------------
+Succeeded: 1
+Failed:    1
+------------
+Total states run:     2
+Total run time:  69.243 ms
+````
+  
+It was quite obvious that I had left a wrong path in my state. I changed it to match the real location of my config file and executed the state again.
+
+	sudoedit /srv/salt/desktop/init.sls
+
+````
+micro:
+  pkg.installed
+
+/home/kallet/.config/micro/settings.json:
+  file.managed:
+    - source: salt://micro/settings.json
+````
+
+	sudo salt-call --local state.apply desktop
+
+````
+[ERROR   ] Source file salt://micro/settings.json not found in saltenv 'base'
+local:
+----------
+          ID: micro
+    Function: pkg.installed
+      Result: True
+     Comment: All specified packages are already installed
+     Started: 15:17:32.833007
+    Duration: 48.738 ms
+     Changes:   
+----------
+          ID: /home/kallet/.config/micro/settings.json
+    Function: file.managed
+      Result: False
+     Comment: Source file salt://micro/settings.json not found in saltenv 'base'
+     Started: 15:17:32.883934
+    Duration: 18.685 ms
+     Changes:   
+
+Summary for local
+------------
+Succeeded: 1
+Failed:    1
+------------
+Total states run:     2
+Total run time:  67.423 ms
+````
+
+There wasn't a difference in errors, so I checked the location and contents of my settings.json. And I did realize, that I had the wrong location, since my state was "desktop" and not "micro".  
+	sudoedit /srv/salt/desktop/init.sls
+
+
+````
+micro:
+  pkg.installed
+
+/home/kallet/.config/micro/settings.json:
+  file.managed:
+    - source: salt://desktop/settings.json
+````
+
+	sudo salt-call --local state.apply desktop
+
+````
+local:
+----------
+          ID: micro
+    Function: pkg.installed
+      Result: True
+     Comment: All specified packages are already installed
+     Started: 15:22:29.290125
+    Duration: 48.834 ms
+     Changes:   
+----------
+          ID: /home/kallet/.config/micro/settings.json
+    Function: file.managed
+      Result: True
+     Comment: File /home/kallet/.config/micro/settings.json is in the correct state
+     Started: 15:22:29.341121
+    Duration: 19.171 ms
+     Changes:   
+
+Summary for local
+------------
+Succeeded: 2
+Failed:    0
+------------
+Total states run:     2
+Total run time:  68.005 ms
+````
+
+The new printout suggested that I had made some progress. This state will be made better in the future when we will learn about using variables in Salt states, now it will only work properly if I'm logged in as the user "kallet", since the path to Micro's settings is absolute.  
+
+Just as I was thinking about this - I think a good way to implement this sort of "my own computer on any machine"-type of thinking would be a live-usb with Linux and thus negate the need for a spesific user.  
+
+### Bash-completion
+
+This was just another pkg, so I added 2 lines of code and ran the state to make sure I hadn't made any typos.  
+
+	sudoedit /srv/salt/desktop/init.sls
+
+````
+micro:
+  pkg.installed
+
+/home/kallet/.config/micro/settings.json:
+  file.managed:
+    - source: salt://desktop/settings.json
+
+bash-completion:
+  pkg.installed
+````
+	
+	sudo salt-call --local state.apply desktop
+
+ ````
+ Summary for local
+ ------------
+ Succeeded: 3
+ Failed:    0
+ ------------
+ Total states run:     3
+ Total run time:  82.094 ms
+ ````
+
+ Now I decided to make a little test, and I removed bash-completion and micro.
+
+ 	sudo apt-get purge micro bash-completion
+
+````
+bash: micro: command not found
+````
+
+Also, hitting the tab still did complete bash command in the cli after I restarted the terminal, so I executed my state just to see would it imply changes.
+
+	sudo salt-call --local state.apply desktop
+
+````
+local:
+----------
+          ID: micro
+    Function: pkg.installed
+      Result: True
+     Comment: The following packages were installed/updated: micro
+     Started: 15:39:52.297847
+    Duration: 2654.113 ms
+     Changes:   
+              ----------
+              micro:
+                  ----------
+                  new:
+                      2.0.8-1+b6
+                  old:
+----------
+          ID: /home/kallet/.config/micro/settings.json
+    Function: file.managed
+      Result: True
+     Comment: File /home/kallet/.config/micro/settings.json is in the correct state
+     Started: 15:39:54.954120
+    Duration: 20.565 ms
+     Changes:   
+----------
+          ID: bash-completion
+    Function: pkg.installed
+      Result: True
+     Comment: The following packages were installed/updated: bash-completion
+     Started: 15:39:54.978388
+    Duration: 3136.689 ms
+     Changes:   
+              ----------
+              bash-completion:
+                  ----------
+                  new:
+                      1:2.11-2
+                  old:
+
+Summary for local
+------------
+Succeeded: 3 (changed=2)
+Failed:    0
+------------
+Total states run:     3
+Total run time:   5.811 s
+````
+
+My guess on why bash-completion still continued to work was that I had multiple terminals open and the process was still running and thus it never stopped working.  
+
+I took a break @ 15.45 and made a commit.  
+
+### Blender, Gimp, Python3, Apache2, Pwgen - programs with default settings
+
+These programs were just rinse & repeat of the same general application, so I didn't report on them extensively.  
+
+````
+Summary for local
+------------
+Succeeded: 8 (changed=2)
+Failed:    0
+------------
+Total states run:     8
+Total run time:  24.974 s
+````
+  
+The report concluded that everything went smoothly.  
+
+**I noticed that I didn't actually need custom settings for SSH, so I added it to this list afterwards.**  
+  
+### Git, UFW - software with custom settings
+
+First, I made sure that the installations of these would work and just added those to my state.
+
+	#I tested that by running the state
+	sudo salt-call --local state.apply desktop
+
+````
+Summary for local
+-------------
+Succeeded: 11 (changed=1)
+Failed:     0
+-------------
+Total states run:     11
+Total run time:    6.239 s
+````
+
+Only pkg that was missing, was ufw.
+
+The next thing was to add some settings. Since most settings can be found under /etc, that's where I started to look for them:
+
+	ls /etc/ |grep git
+
+That didn't bring any results, so I figured they must be in my home directory.  
+
+	cd
+	ls -a |grep git
+	micro .gitconfig
+
+Then I just copied my git-settings to my state directory and added those to my sls.init.
+
+	sudo cp .gitconfig /srv/salt/desktop/
+	sudoedit /srv/salt/desktop/init.sls
+	
+````
+/home/kallet/.gitconfig:
+  file.managed:
+    - source: salt://desktop/.gitconfig
+````
+
+Still, everything went smoothly:
+````
+Summary for local
+-------------
+Succeeded: 12
+Failed:     0
+-------------
+Total states run:     12
+Total run time:  150.743 ms
+````
+
+Next I started work with UFW. First I did my settings manually to make sure I knew how to do stuff, before I automated it.  
+
+	sudo apt-get install ufw
+	sudo ufw allow 22
+	sudo ufw enable
+
+These setting would allow SSH traffic and enable the firewall. Next I needed to copy the settings to my state folder.
+
+	sudo cp /etc/ufw/ufw.conf /srv/salt/desktop/
+	
+I added this to the state:
+````
+/etc/ufw/ufw.conf:
+  file.managed:
+    - source: salt://desktop/ufw.conf
+````
+
+The config file had my desired settings, as I had set those in giving my commands. Atleast that was what I had suspected, but the rules were actually in user.rules.
+````
+\### tuple ### allow any 22 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport 22 -j ACCEPT
+-A ufw-user-input -p udp --dport 22 -j ACCEPT
+````
+
+So I fixed my state accordingly, copied the correct file and deleted the other.  
+
+	sudo cp /etc/ufw/user.rules /srv/salt/desktop/
+	sudoedit /srv/salt/desktop/init.sls
+
+````
+/etc/ufw/user.rules:
+  file.managed:
+    - source: salt://desktop/user.rules
+````
+	
+	sudo salt-call --local state.apply desktop
+
+````
+Summary for local
+-------------
+Succeeded: 13
+Failed:     0
+-------------
+Total states run:     13
+Total run time:  150.759 ms
+````
+
+That worked, so next I made sure that ufw would be enabled:
+
+	sudoedit /srv/salt/desktop/init.sls
+
+````
+Run ufw:
+  cmd.run:
+    - name: ufw enable
+````
+
+Source applied to this: [Saltstack](https://docs.saltproject.io/en/latest/ref/states/all/salt.states.cmd.html).  
+
+I had succeeded in creating a good startup stage for my own use.  
+
+````
+Summary for local
+-------------
+Succeeded: 14 (changed=1)
+Failed:     0
+-------------
+Total states run:     14
+Total run time:  278.713 ms
+````
+
+Last I created a state to make Micro my sudoeditor of choice.
+
+````
+Make micro sudoeditor:
+  cmd.run:
+    - name: export EDITOR="micro"
+````
+
+After all this I made my cmd.run states return True with the stateful attribute.  
+
+I tested if I could have some use out of this by commenting the ufw pkg.installed out and purged ufw:
+
+	sudo apt-get purge ufw
+	sudo ufw status
+
+````
+sudo: ufw: command not found
+````
+
+	sudo salt-call --local state.apply desktop
+
+
+````
+----------
+          ID: Run ufw
+    Function: cmd.run
+        Name: ufw enable
+      Result: False
+     Comment: /bin/bash: line 1: ufw: command not found
+     Started: 19:16:05.400061
+    Duration: 5.186 ms
+     Changes:   
+----------
+          ID: Make micro sudoeditor
+    Function: cmd.run
+        Name: export EDITOR="micro"
+      Result: True
+     Comment: 
+     Started: 19:16:05.405375
+    Duration: 2.977 ms
+     Changes:   
+
+Summary for local
+-------------
+Succeeded: 13 (changed=1)
+Failed:     1
+-------------
+Total states run:     14
+````
+
+[The source](https://docs.saltproject.io/en/latest/ref/states/all/salt.states.cmd.html) says that if stdout is empty, it's assumed to be successfully executed. So that worked fine for ufw and I tested the same for micro in a similar manner.
+
+	sudo apt-get purge -y micro
+	sudo salt-call --local state.apply desktop
+
+````
+----------
+          ID: Make micro sudoeditor
+    Function: cmd.run
+        Name: export EDITOR="micro"
+      Result: True
+     Comment: 
+     Started: 19:36:38.506600
+    Duration: 2.901 ms
+     Changes:   
+
+Summary for local
+-------------
+Succeeded: 12
+Failed:     1
+-------------
+Total states run:     13
+Total run time:  149.044 ms
+kallet@confmansys:~/.config$ micro
+bash: /usr/bin/micro: No such file or directory
+````
+
+That didn't work out for Micro, since export apparently allows you to set editors that don't exist as ECPORT. So next I decided to try out adding a watch if installed to the mix.  
+
+	sudoedit /srv/salt/desktop/init.sls
+
+So, I added these lines:
+````
+Make micro sudoeditor:
+  cmd.run:
+    - name: export EDITOR="micro"
+    - watch:
+      - pkg: micro
+        stateful: True
+````
+
+Then I installed micro and tested it out:
+
+	sudo apt-get install -y micro
+	sudo salt-call --local state.apply desktop
+
+The output remained That didn't actually work, so I uncommented my micro-state from sls.init.  
+
+I made the states again by using cmd.wait:
+````
+ufw enable:
+  cmd.wait:
+    - watch:
+      - pkg: ufw
+
+export EDITOR="micro":
+  cmd.wait:
+    - watch:
+      - pkg: micro
+````
+
+I tried them out and they worked idempotently.  
+
+	sudo apt-get purge -y micro
+
+
+*First run*  
+````
+Summary for local
+-------------
+Succeeded: 15 (changed=2) #micro and EDITOR
+Failed:     0
+-------------
+Total states run:     15
+Total run time:    3.432 s
+
+````
+  
+*Second run*  
+````
+Summary for local
+-------------
+Succeeded: 15
+Failed:     0
+-------------
+Total states run:     15
+Total run time:  155.667 ms
+````
+	
+	sudo apt-get purge -y ufw
+
+*First run*  
+````
+Summary for local
+-------------
+Succeeded: 15 (changed=3)
+Failed:     0
+-------------
+Total states run:     15
+Total run time:    3.579 s
+````  
+
+*Second run*  
+````
+Summary for local
+-------------
+Succeeded: 15
+Failed:     0
+-------------
+Total states run:     15
+Total run time:  155.065 ms
+````
+  
 ## f) Vapaaehtoinen: Laita srv/salt/ gittiin. Tee uusi moduli. Kloonaa varastosi toiselle koneelle (tai poista srv/salt ja palauta se kloonaamalla) ja jatka sillä. / add a Salt state to Git
 
+I navigated myself to my salt state.  
+
+	cd /srv/salt/desktop
+	sudo git init
+	sudo git add .
+	sudo git commit -m "Added initial state for desktop use"
+	sudo git remote add origin git@github.com:kalletolonen/desktop.git
+	sudo git push -u origin master
+
+The last command resulted in a ssh-key error:  
+````
+git@github.com: Permission denied (publickey).
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+````
+
+I couldn't get this to work evenhought I made a new ssh key and added it to Github. So, next I removed the .git-directory and renamed my folder:
+
+	sudo rm -r .git
+	cd ..
+	sudo mv desktop/ desktop2
+
+Then I deleted the repo from Github and made it again, but without adding README or licence (this way you can access the instructions):  
+````
+echo "# desktop" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin git@github.com:kalletolonen/desktop.git
+git push -u origin main
+````
+
+I created the folder again:  
+
+	sudo mkdir desktop
+	ls
+	sudo git init
+	sudo cp ../desktop2/* .
+	sudo git branch -M main
+	sudo git remote add origin git@github.com:kalletolonen/desktop.git
+	sudo git add .
+
+````
+git@github.com: Permission denied (publickey).
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+````
+
+Still, the problem persisted. I decided to find out if my keys would work in pushing an another repository.
+	
+	cd
+	cd ConfManSystems #my course repo
+	git pull
+	git push
+	git add .
+	git commit
+	git pull
+	git push
+
+````
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 3.00 KiB | 3.00 MiB/s, done.
+Total 3 (delta 2), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To github.com:kalletolonen/ConfManSystems.git
+   70a1218..ccd6a06  main -> main
+````
+
+That worked fine, so I figured it must have something to do with having to do stuff as a root user - maybe the ssh-keys were different with a root account? To test this, I generated new ssh-keys as a sudo user.
+
+	sudo ssh-keygen
+	sudo cat /root/.ssh/id_rsa.pub
+
+That didn't work either, as my push attempt still had a cryptic error:
+````
+allet@confmansys:/srv/salt/desktop$ sudo git push --set-upstream origin master
+error: src refspec master does not match any
+error: failed to push some refs to 'github.com:kalletolonen/desktop.git'
+````
+
+Next, I just decided to try out pushing the same stuff as a regular user from my home directory:	
+	sudo cp -r /srv/salt/desktop2 /home/kallet/
+	mv /home/kallet/desktop2/ /home/kallet/desktop
+	cd
+	cd desktop
+	git init
+
+````
+/home/kallet/desktop/.git: Permission denied
+````
+
+	ls -ld
+
+````
+kallet@confmansys:~/desktop$ ls -l
+total 12
+-rw-r--r-- 1 root root  636 16. 4. 20:45 init.sls
+-rw-r--r-- 1 root root   25 16. 4. 20:45 settings.json
+-rw-r----- 1 root root 1416 16. 4. 20:45 user.rules
+````
+
+So, I needed to: a) change the usage rights b) use git as root. I thought that this would present a problem - if I made changes to the files user rights, they would follow the files and propably cause problems down the line when trying to execute them later. So, I decided to try adding them as root from here and see what would happen with my push dilemma.  
+
+	 sudo git init
+	 sudo git add .
+	 sudo git commit -m "Initial commit"
+	 sudo git remote add origin git@github.com:kalletolonen/desktop.git
+	 sudo git branch -M main
+	 sudo git push -u origin main
+
+````
+kallet@confmansys:~/desktop$ git push -u origin main
+Enumerating objects: 6, done.
+Counting objects: 100% (6/6), done.
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (6/6), 1.03 KiB | 1.03 MiB/s, done.
+Total 6 (delta 0), reused 0 (delta 0), pack-reused 0
+To github.com:kalletolonen/desktop.git
+ * [new branch]      main -> main
+error: could not lock config file .git/config: Permission denied
+error: Unable to write upstream branch configuration
+hint: 
+hint: After fixing the error cause you may try to fix up
+hint: the remote tracking information by invoking
+hint: "git branch --set-upstream-to=origin/main".
+error: update_ref failed for ref 'refs/remotes/origin/main': cannot lock ref 'refs/remotes/origin/main': unable to create directory for .git/refs/remotes/origin/main
+kallet@confmansys:~/desktop$ sudo git push -u origin main
+Branch 'main' set up to track remote branch 'main' from 'origin'.
+Everything up-to-date
+````
   
+That workflow worked, so I decided to try it out again in the salt state folder to a new github repository:  
+
+	cd /srv/salt/
+	sudo rm -r desktop2
+	cp desktop desktop2
+	cd desktop2
+	sudo rm -r .git
+	sudo git init
+	sudo git add .
+	sudo git commit -m "Initial commit"
+	sudo git remote add origin git@github.com:kalletolonen/desktop2.git
+	sudo git branch -M main
+	sudo git push -u origin main
+
+````
+kallet@confmansys:/srv/salt/desktop2$ sudo git push -u origin main
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (5/5), 958 bytes | 958.00 KiB/s, done.
+Total 5 (delta 0), reused 0 (delta 0), pack-reused 0
+To github.com:kalletolonen/desktop2.git
+ * [new branch]      main -> main
+Branch 'main' set up to track remote branch 'main' from 'origin'.
+````
+
+That worked too, so I had made a mistake earlier. Looking back I missed the "sudo branch - M main"-commmand, Next I deleted the redundant repository from my Debian and Github. I wanted to try out the installation on a fresh machine, so I started an empty Debian virtual machine for the next stage.
+  
+First I realized that I needed to install Salt and Git:
+	
+	sudo apt-get update
+	sudo apt-get upgrade
+	sudo apt-get install -y git
+	sudo apt-get install -y salt-master salt-minion
+	
+After that I started the master.	
+	
+	sudo systemctl start salt-master.service
+	
+I soon realized that that didn't create a salt folder in /srv, so I needed to initiate the slave too to run this locally.  
+  
+![Pic 3. No folder in /srv](pics/h3/3.png)  
+*No folder existed*
+  
+So, next I had to create the minion's config:
+	
+	hostname -I
+
+![Pic 4. Added the master's address](pics/h3/4.png)  
+*The master's address was added*  
+	
+	sudo systemctl restart salt-minion
+	sudo systemctl restart salt-master.service
+	sudo salt-key
+	sudo salt-key -a *
+	sudo salt-key
+	
+![Pic 5. Key was accepted](pics/h3/5.png)  
+*Key was accepted*  
+	
+	sudo salt 'confmansys' test.ping
+	
+````
+confmansys:
+    True
+````
+
+Still, no salt-directory, so I figured that I might have created it myself and omitted it from my reports. Still, I wanted to check if running a cli-state would create the directory. 
+	
+	sudo salt * state.single pkg.installed micro
+	ls
+	
+![Pic 6. No directory still](pics/h3/6.png)  
+*No directory*  
+  
+That said to me, that I had propably just created the directory and omitted it from my reports.
+	
+	sudo mkdir /srv/salt
+	cd /srv/salt
+	sudo git clone git@github.com:kalletolonen/desktop.git
+	
+Not exactly handy - I couldn't clone without ssh keys:
+````
+git@github.com: Permission denied (publickey).
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+````
+
+So, I needed to install Salt, Git and SSH to clone a single repo with Salt. 
+	
+	sudo apt-get install ssh
+	ssh-keygen
+	
+I collected my new puiblic key and pasted it to Github.
+  
+Cloning direcly to the /srv/salt/-folder didn't work, but it worked for my home dir. Maybe that was a problem with running the keygen as a normal user and not root?
+  
+Then I copied my repository from my home-directory to the proper location and tried it out:  
+	
+	sudo cp -r desktop/ /srv/salt/
+	
+I had 0 ideas on how to debug this.  
+  
+````
+kallet@confmansys:~$ sudo salt-call --local state.apply desktop
+[ERROR   ] Parent directory not present
+^C
+Exiting gracefully on Ctrl-c
+````
+  
+Googling hinted on a possible user rights-problem, but nothing definitive, so I decided to try running it on my local minion instead of --local:
+	
+	sudo salt '*' state.apply desktop
+	
+````
+confmansys:
+----------
+          ID: micro
+    Function: pkg.installed
+      Result: True
+     Comment: All specified packages are already installed
+     Started: 22:00:13.590210
+    Duration: 47.421 ms
+     Changes:   
+----------
+          ID: /home/kallet/.config/micro/settings.json
+    Function: file.managed
+      Result: False
+     Comment: Parent directory not present
+     Started: 22:00:13.639714
+    Duration: 14.638 ms
+     Changes:   
+----------
+````
+  
+This made me realize that I had just been impatient and that Micro didn't have a config directory, as it has never been used and thus it hasn't created it. So I made an adaptation to my init.sls:
+	
+````
+/home/kallet/.config/micro/:
+  file.directory
+````
+  
+I ran my state a few times, and it returned values that were expected:  
+````
+Summary for local
+-------------
+Succeeded: 16
+Failed:     0
+-------------
+Total states run:     16
+Total run time:  150.092 ms
+````
+  
+After that I updated my state to my repo:
+	
+	cd /srv/salt/desktop/
+	sudo ssh-keygen # -> pasted to Github
+	sudo git pull
+	sudo git push
+	sudo commit
+	sudo git pull
+	sudo git push
+	
+![Pic 7. Updated a salt state repo](pics/h3/7.png)  
+*Succesfully updated the repository*  
+
+	
+
+
+	
+
+	
+
+	
+
