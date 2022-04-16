@@ -227,6 +227,9 @@ ssh-keygen -C "kommentti"
 
 ssh on hyvä saltin varakanava.
 
+sudo apt-get install netcat
+nc -v -z osoite portti #kertoo onnistuiko yhteys
+
 Github
 -> new repo
 -> repon nimi
@@ -245,7 +248,7 @@ git push
 
 Muutoksia ->
 
-git add .
+git add .cd \con	
 git commit
 git pull
 git push
