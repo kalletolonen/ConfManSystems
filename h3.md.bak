@@ -799,6 +799,13 @@ Failed:     0
 Total states run:     15
 Total run time:  155.065 ms
 ````
+
+**UPDATE**  
+  
+I ran some tests to validate my settings (tabstospaces and ufw) and they both worked with my state.
+  
+![Pic 8. UFW stdout](pics/h3/8.png)  
+*UFW stdout confimed that my settings worked*  
   
 ## f) Vapaaehtoinen: Laita srv/salt/ gittiin. Tee uusi moduli. Kloonaa varastosi toiselle koneelle (tai poista srv/salt ja palauta se kloonaamalla) ja jatka sillä. / add a Salt state to Git
 
@@ -1109,7 +1116,10 @@ After that I updated my state to my repo:
 *Succesfully updated the repository*  
   
 Stopped work @ 22.24.
-
+  
+**UPDATE**  
+  
+I tested my state some more and realized, that the command for sudoeditor's change doesn't do anything. You can find an up-to-date version of my salt state [here]().
 	
 
 
