@@ -309,3 +309,44 @@ Useampi valittu rivi on mahdollista sisentää kerralla valitsemalla ne ja tabil
 alt + nuoli ylös -> siirtää valitun tekstin ylemmäs
 ctrl + d = duplicate
 
+git diff --cached #Tsekkaa muutokset commit messageen
+
+Timeline
+export PS1='W\$' <- lyhyempi prompt
+
+Micron asetukset
+set colorscheme simple
+set softwrap on
+set tabstospaces off
+set ftoptions off
+
+
+Find <- etsii tiedostoja
+find -iname "*rsa*" <- kaikki tiedostot, joiden nimessä rsa
+find -printf '%T+ %p\n' |sort <-Tiedostolista + aika aakkosjärjestyksessä
+find -printf '%T+ %p\n' |sort|grep -i  micro <-Tiedostolista + aika aakkosjärjestyksessä, joissa micro (-i poistaa case sensitiven)
+
+grep -v 'pois otettava kama'
+
+Man sivuilta EXAMPLES <- esimerkkejä
+man find
+g <- alkuun
+shift + g <- loppuun
+
+Asetusten monistaminen
+kopsataan /etc/skel kansioon kamat mitä halutaan uusille käyttäjille
+esim. public_html-hakemisto
+
+kopioi /skel itsellesi:
+cp -irv /etc/skel/* /etc/skel/.???* $HOME (i = interactive, recursive, v=rautalanka)
+
+skel-hakemistoon:
+sudo mkdir -p .config/micro/
+sudo cp /home/user/.config/micro/settings.json /etc/skel/.config/micro
+sudoedit /etc/skel/.bashrc unchanged <-tänne voi tunkea pohjalle:
+export EDITOR="micro"
+export PS1='W\$  <- lyhyempi prompt
+
+man bash = set:n manuaali
+
+
