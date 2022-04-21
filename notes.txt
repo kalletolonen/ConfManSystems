@@ -272,10 +272,40 @@ git mergetool:
 sudo apt-get install -y meld
 git mergetool --tool=meld
 
+Juho Syrjänen LinkedIn
+-itrevolution the devops handbook
+-Phoenix Transformation
+-Linodella hyvät krediitit
+-Academic Work
+
+Infra koodina:
+Terraform
+Gitlab CI-CD
+Ansible
+Docker
+Salt
+
+Oh shit git
+-Git problem
+
+Kontteja voi säilöä:
+-Github
+-Dockerhub
 
 
+``` ohjelmointikielen nimi
+print(backtick)
+```
 
+Micro-niksejä
+ctrl + e - ohjauskäskyt
+set asetus
+softwrap on
+set tabtospaces off <-korjaa tabit
+set ftoptions off <- korjaa tabit, pakko olla molemmat
+ctrl + e -> retab <- muuttaa välilyönnit tabeiksi
 
-
-
+Useampi valittu rivi on mahdollista sisentää kerralla valitsemalla ne ja tabilla.
+alt + nuoli ylös -> siirtää valitun tekstin ylemmäs
+ctrl + d = duplicate
 
