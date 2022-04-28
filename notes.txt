@@ -345,8 +345,21 @@ sudo mkdir -p .config/micro/
 sudo cp /home/user/.config/micro/settings.json /etc/skel/.config/micro
 sudoedit /etc/skel/.bashrc unchanged <-tänne voi tunkea pohjalle:
 export EDITOR="micro"
-export PS1='W\$  <- lyhyempi prompt
+export PS1='\$'  <- lyhyempi prompt
 
 man bash = set:n manuaali
+
+/etc/apt/settings(tjs.) <- apt:n sisäänrakennettu päivitys
+
+Paketinhallinnan ulkopuolelta asentaminen:
+-Lataa paketti netistä
+-> Downloads-kansio
+sudo apt-get install -y atool
+-> Pura
+-> Sitten normisti bash-käytännöllä oikeaan kansioon. Ks. aiemmat muistiinpanot
+Tarkista käyttäjäoikeudet!
+sudo cp paketti /usr/local/bin/
+
+stat kertoo tiedoston oktaalinumeroina käyttöoikeudet. Tee ensin käsin muutos ugo + oikeudet (UserGroupOthers), esim. ugo + x antaa kaikille execute-oikeuden.
 
 
