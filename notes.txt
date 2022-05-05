@@ -362,4 +362,52 @@ sudo cp paketti /usr/local/bin/
 
 stat kertoo tiedoston oktaalinumeroina käyttöoikeudet. Tee ensin käsin muutos ugo + oikeudet (UserGroupOthers), esim. ugo + x antaa kaikille execute-oikeuden.
 
+Modern IE -> Windowsin virtuaalikone
+
+Lopputyöajatuksia:
+Python-Django devausympäristön pystytys
+
+state.apply = state.highstate
+
+Arctic Configuration Management
+
+Nginx
+Käsin -> automaattisesti -> todista idempotenttius
+
+curl -S <- silent
+curl -i<- serveri
+
+REVERSE WATCH
+-Saltille
+
+Internet protocol suite <- Wikipedia
+
+ps wuxa | nl <- demonit koneella
+xmodmap <- saa mapattua omia näppäimiä
+
+vbox-virtuaaliverkko
+
+echo sana | grep hakusana && (<-operattori) echo löytyi
+
+grep ^ <- rivin alun parametri
+
+#Idempotentti cmd.run salt
+ufw allow 80/ctp:
+  cmd.run:
+    - unless:'ufw status|grep"^80/tcp"'
+
+Saltin masterin ja slaven täytyy olla samaa versiota -> master päivitetään ensin
+
+salt windows <- terokarvinen
+
+Lopputyö
+-Idempotentti
+-Infraa koodina
+-Yksi totuus
+-Tarkoitus -> mitä tekee kansantajuisesti
+-Lopputulos näkyviin ensimmäisenä
+-Julkaisuun sorsat + ohjeet miten saa käyttöön
+-Lisenssi
+-Ota kantaa maturiteettiin -> alfa, beta, tmv.
+
 
