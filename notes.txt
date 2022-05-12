@@ -410,4 +410,18 @@ Lopputyö
 -Lisenssi
 -Ota kantaa maturiteettiin -> alfa, beta, tmv.
 
+Palaute:
+
+
+Windowsin levykuvan voi ladata emuloimalla Chromella Mac/Linux-selainta.
+
+Saltin tilat piilotettuun "programdata"-kansioon Windowsissa! Git pitää olla asennettuna! Ks. Karvisen ohje tai SaltStack.
+
+
+
+
+
+
+
+
 
