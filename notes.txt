@@ -411,17 +411,25 @@ Lopputyö
 -Ota kantaa maturiteettiin -> alfa, beta, tmv.
 
 Palaute:
+-Kerro mikä on Django alussa
+-Paketinhallinta ja versiot? 4 ja 3.2.
+-Pipin käsittely: komennot, creates tai saltin pip-tila
+-Virtualenv Saltissa, komennoilla ehkä mahdollista
+-Mahdollisimman yksinkertainen tietokanta alkuun
+
+Vaihtoehto:
 
 
 Windowsin levykuvan voi ladata emuloimalla Chromella Mac/Linux-selainta.
 
-Saltin tilat piilotettuun "programdata"-kansioon Windowsissa! Git pitää olla asennettuna! Ks. Karvisen ohje tai SaltStack.
+Saltin tilat piilotettuun "programdata"-kansioon Windowsissa! Git pitää olla asennettuna! Ks. Karvisen ohje tai SaltStack. Windows Linux Salt muotteihin Karvinen.com.
 
+state.apply = state.highstate, käytä ensimmäistä.
 
+*-sertifikaatti let's encrypt, jolloin saat myös tyyliin app.domain.com
+-Lego let's encrypt (go acme lego)
 
+apache bench kuormituksen testaamiseen
 
-
-
-
-
+Karvinen sirotin - github <-livetikkuhommia
 
